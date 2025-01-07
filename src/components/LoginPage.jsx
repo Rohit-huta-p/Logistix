@@ -33,7 +33,7 @@ const LoginPage = () => {
       setPassword("");
       setError("");
     } catch (err) {
-      setError("Login failed. Please check your credentials.");
+        setError("Login failed. Please check your credentials.");
       console.error(err);
     }
   };

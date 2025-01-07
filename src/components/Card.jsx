@@ -27,9 +27,9 @@ const Card = () => {
       setIsLoading(true);
       const response = await axiosInstance.get("/api/company");
       const listOfCompanies = response.data.companies; // provides an array of objects
-      if (response.statusText !== "OK") {
-        throw new Error("Failed to fetch companies");
-      }
+      // if (response.statusText !== "OK") {
+      //   throw new Error("Failed to fetch companies");
+      // }
       setCompanies(listOfCompanies);
       setIsLoading(false)
       // Store the fetched companies in state
@@ -38,10 +38,7 @@ const Card = () => {
     }
   };
 
-  // Initial fetch of companies when the component mounts
-  useEffect(() => {
-    fetchCompanies();
-  }, []);
+
 
   // Add a new company
   const addCompany = async (name) => {
@@ -68,10 +65,11 @@ const Card = () => {
     }
   };
 
-  // Conditional rendering based on error state
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+
+    // Initial fetch of companies when the component mounts
+    useEffect(() => {
+      fetchCompanies();
+    }, []);
 
   return (
     <div className="p-5 ">
