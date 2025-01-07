@@ -104,7 +104,7 @@ const BookingRegister = ({ id, fetchCopyDetails, handleClose, setMessage }) => {
         data
       );
       console.log("Response:", response.data);
-      fetchCopyDetails('letterPad')
+      fetchCopyDetails('bookingregister')
       setIsLoading(false)
       if(response.data.success) setMessage(response.data.message)
       handleClose()

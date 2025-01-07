@@ -235,7 +235,7 @@ const CompanyPage = () => {
 
   useEffect(() => {
     fetchCopyDetails(category);
-  }, [category]);
+  }, []);
 
   return (
     <div className="bg-blue-100 min-h-screen">
