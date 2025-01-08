@@ -28,25 +28,7 @@ const [isLoading, setIsLoading] = useState(false)
     }
 
     setIsLoading(true);
-    try {
-      // Check if user already exists by hitting the login API
-      const loginResponse = await axiosInstance.post("/api/user/login", {
-        email,
-        password,
-      });
-
-      if (loginResponse.data.token) {
-        // User already exists if login is successful
-        console.log(loginResponse.data.token);
-        
-        setError("User already exists. Please login.");
-        return;
-      }
-    } catch (err) {
-      // If user does not exist, it will cause a login failure, which is what we want
-      console.log("User not found. Proceeding with registration...");
-    }
-
+   
     try {
       // Register the new user if no existing user is found
       const registerResponse = await axiosInstance.post("/api/user/register", {
