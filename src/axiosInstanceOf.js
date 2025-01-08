@@ -1,8 +1,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 const axiosInstance = axios.create({
-    // baseURL: "http://localhost:8000",
-    baseURL: "https://logistix-backend.onrender.com",
+    baseURL: "http://localhost:8000",
+    // baseURL: "https://logistix-backend.onrender.com",
 
     
 })

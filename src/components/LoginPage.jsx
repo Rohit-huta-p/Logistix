@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation
 
 import axiosInstance from "../axiosInstanceOf";
+import Loader from "./Loader";
 
 const LoginPage = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // To handle error messages
@@ -12,9 +15,8 @@ const LoginPage = () => {
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true)
     try {
-      // Call the login API with the email and password
       const response = await axiosInstance.post(
         "/api/user/login",
         {
@@ -32,6 +34,7 @@ const LoginPage = () => {
       setEmail("");
       setPassword("");
       setError("");
+      setIsLoading(false)
     } catch (err) {
         setError("Login failed. Please check your credentials.");
       console.error(err);
@@ -48,11 +51,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex relative items-center justify-center h-screen">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md"
+        className={`w-full max-w-sm p-6 bg-white rounded-lg shadow-md ${isLoading && 'bg-slate-800/60'}`}
       >
+        {isLoading && <Loader isLoading={isLoading} />}
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}{" "}
         {/* Show error message */}
@@ -69,7 +73,7 @@ const LoginPage = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 ${isLoading && 'bg-slate-800/60'}`}
             placeholder="Enter your email"
           />
         </div>
@@ -86,7 +90,7 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300  ${isLoading && 'bg-slate-800/50'}`}
             placeholder="Enter your password"
           />
         </div>

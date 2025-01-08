@@ -31,9 +31,11 @@ function App() {
       {isLogin &&<Navbar/>}
           <GlobalContextProvider>
           <Routes>
+            
             <Route path="/" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+
             <Route path="/home" element={{token} ? <Card /> : <Navigate to="/login" />}/>
             <Route path="/companypage/:id" element={<CompanyPage />} />
             <Route path="/updatecopy/:copyName/:copyId" element={<UpdateModal />} />

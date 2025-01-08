@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import Loader from './Loader.js'
 
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstanceOf";
-
 const RegisterPage = () => {
+const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,17 +18,16 @@ const RegisterPage = () => {
   // Function to check if user already exists and register the new user
   const handleRegister = async (event) => {
     event.preventDefault();
-
     // Clear previous messages
     setError("");
     setSuccess("");
-
     // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
+    setIsLoading(true);
     try {
       // Check if user already exists by hitting the login API
       const loginResponse = await axiosInstance.post("/api/user/login", {
@@ -62,7 +62,7 @@ const RegisterPage = () => {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        
+        setIsLoading(false)
         
       }
     } catch (err) {
@@ -71,9 +71,13 @@ const RegisterPage = () => {
     }
   };
 
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form onSubmit={handleRegister} className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+    <div className={`flex items-center justify-center h-screen `}>
+      {
+        isLoading && ( <Loader isLoading={isLoading} text={'Registering'}/> )
+      }
+      <form onSubmit={handleRegister} className={`w-full max-w-sm p-6 bg-white rounded-lg shadow-md ${isLoading && 'bg-slate-800/70'}`}>
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
         {error && <p className="text-red-500 mb-4">{error}</p>} {/* Show error message */}
@@ -124,16 +128,19 @@ const RegisterPage = () => {
           />
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col">
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Register
           </button>
+
+
+        <p>Already have an account?</p>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="text-blue-400 underline"
             onClick={handleLogin}
           >
             Login
