@@ -5,9 +5,7 @@ import axios from "axios";
 import { GlobalContext } from "../contexts/GlobalContext";
 import Loader from "../components/Loader";
 
-function BillBook({ id }) {
-
-
+function BillBook({ id, setShow, fetchCopyDetails }) {
   const table_columns = [
     "CN Number",
     "Invoice No.",
@@ -23,29 +21,29 @@ function BillBook({ id }) {
     "Amount",
   ];
   // const {isLoading, setIsloading} = useContext(GlobalContext);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   console.log(isLoading);
-  
+
   const [isAdd, setIsAdd] = useState(false);
   const [data, setData] = useState({
     name: "",
     billno: "",
     date: "",
     initialBillDetails: {
-        cn_number: "",
-        invoice_number: "",
-        date: "",
-        from: "",
-        to: "",
-        weight: "",
-        charged: "",
-        rate: "",
-        freight: "",
-        st: "",
-        st_charges: "",
-        others: "",
-        amount: "",
-      },
+      cn_number: "",
+      invoice_number: "",
+      date: "",
+      from: "",
+      to: "",
+      weight: "",
+      charged: "",
+      rate: "",
+      freight: "",
+      st: "",
+      st_charges: "",
+      others: "",
+      amount: "",
+    },
     billDetails: [],
     total: "",
     gst_payable_by: "",
@@ -84,66 +82,61 @@ function BillBook({ id }) {
     });
   };
 
+
+
+  const handleAddRecordToLocal = () => {
+    setData((prevData) => ({
+      ...prevData,
+      initialBillDetails: {
+        cn_number: "",
+        invoice_number: "",
+        date: "",
+        from: "",
+        to: "",
+        weight: "",
+        charged: "",
+        rate: "",
+        freight: "",
+        st: "",
+        st_charges: "",
+        others: "",
+        amount: "",
+      },
+      billDetails: [...prevData.billDetails, prevData.initialBillDetails],
+    }));
+  };
+
   // Add Bill Copy to DB
   const handleSubmit_addBillCopy = async () => {
     const { initialBillDetails, ...finalData } = data;
 
     try {
-
       const response = await axiosInstance.post(
         `/api/billcopy/add/${id}`,
         finalData
       );
 
       console.log("Response:", response.data);
-
+      setShow(false);
+      fetchCopyDetails('billcopy')
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleAddRecordToLocal = () => {
-    setData((prevData) => ({
-      ...prevData,
-      initialBillDetails: {
-          cn_number: "",
-          invoice_number: "",
-          date: "",
-          from: "",
-          to: "",
-          weight: "",
-          charged: "",
-          rate: "",
-          freight: "",
-          st: "",
-          st_charges: "",
-          others: "",
-          amount: "",
-        },
-      billDetails: [
-        ...prevData.billDetails, prevData.initialBillDetails
-      ]
-    }));
-  };
-
-
-  
-  console.log(data);
-  
   return (
-    <div className={`outline relative `}>
-      {
-        isLoading && <div className={`w-full h-full absolute ${isLoading && 'bg-black/70'}`}></div>
-
-      }
-      {
-        isLoading && <Loader isLoading={isLoading} />
-      }
+    <div className={` relative  bg-white p-2`}>
+      {isLoading && (
+        <div
+          className={`w-full h-full absolute ${isLoading && "bg-black/70"}`}
+        ></div>
+      )}
+      {isLoading && <Loader isLoading={isLoading} />}
       <Header />
       {/* name of delear & billNo */}
       <div className=" grid grid-cols-4">
         {/* NAME OF DEALER */}
-        <div className="col-span-3 border-r-2 border-black">
+        <div className="col-span-3 border-r-2 p-2 ">
           <div className="flex ">
             <h1>M/s:</h1>
             {/* Name */}
@@ -160,8 +153,8 @@ function BillBook({ id }) {
         </div>
 
         {/* Bill no */}
-        <div className=" border-r-2 border-black ">
-          <div className="flex  ">
+        <div className=" border-r-2 border-black p-2 ">
+          <div className="flex ">
             {/* Bill No */}
             <h1>Bill No.:</h1>
             <input
@@ -176,7 +169,7 @@ function BillBook({ id }) {
           </div>
 
           {/* Date */}
-          <div className="flex  ">
+          <div className="flex mt-3">
             <h1>Date:</h1>
             <input
               type="date"
@@ -200,7 +193,7 @@ function BillBook({ id }) {
       </div>
 
       {/* table */}
-      <table className="p-4 w-full">
+      <table className="p-4 w-full mt-2">
         <thead className="grid grid-cols-12 border border-black ">
           {table_columns.map((column) => (
             <th className="text-xs">{column}</th>
@@ -208,65 +201,39 @@ function BillBook({ id }) {
         </thead>
         <tbody>
           {/* added records locally */}
-          {
-            data.billDetails.length > 0 &&
-              data.billDetails.map((record) => {
-        
+          {data.billDetails.length > 0 &&
+            data.billDetails.map((record) => {
               return (
                 <tr className="grid grid-cols-12">
                   {/* CN_NUMBER */}
-                  <td className="flex justify-center">
-                    {record.cn_number}
-                  </td>
+                  <td className="flex justify-center">{record.cn_number}</td>
                   {/* invoice number */}
                   <td className="flex justify-center">
                     {record.invoice_number}
                   </td>
                   {/* from */}
-                  <td className="flex justify-center">
-                    {record.from}
-                  </td>
+                  <td className="flex justify-center">{record.from}</td>
                   {/* to */}
-                  <td className="flex justify-center">
-                    {record.to}
-                  </td>
+                  <td className="flex justify-center">{record.to}</td>
                   {/* weight */}
-                  <td className="flex justify-center">
-                    {record.weight}
-                  </td>
+                  <td className="flex justify-center">{record.weight}</td>
                   {/* charged */}
-                  <td className="flex justify-center">
-                    {record.charged}
-                  </td>
+                  <td className="flex justify-center">{record.charged}</td>
                   {/* rate */}
-                  <td className="flex justify-center">
-                    {record.rate}
-                  </td>
+                  <td className="flex justify-center">{record.rate}</td>
                   {/* freight */}
-                  <td className="flex justify-center">
-                    {record.freight}
-                  </td>
+                  <td className="flex justify-center">{record.freight}</td>
                   {/* st */}
-                  <td className="flex justify-center">
-                    {record.st}
-                  </td>
+                  <td className="flex justify-center">{record.st}</td>
                   {/* st_charges */}
-                  <td className="flex justify-center">
-                    {record.st_charges}
-                  </td>
+                  <td className="flex justify-center">{record.st_charges}</td>
                   {/* others */}
-                  <td className="flex justify-center">
-                    {record.others}
-                  </td>
+                  <td className="flex justify-center">{record.others}</td>
                   {/* amount */}
-                  <td className="flex justify-center">
-                    {record.amount}
-                  </td>
-            
+                  <td className="flex justify-center">{record.amount}</td>
                 </tr>
               );
-            }
-          )}
+            })}
 
           {/*  */}
           {isAdd && (
@@ -303,7 +270,7 @@ function BillBook({ id }) {
                   }
                 />
               </td>
-              
+
               <td className="flex justify-center">
                 <input
                   type="text"
@@ -462,7 +429,6 @@ function BillBook({ id }) {
                     )
                   }
                 />
-
               </td>
             </tr>
           )}
@@ -501,10 +467,14 @@ function BillBook({ id }) {
       </table>
 
       {/* footer */}
-      <footer className=" grid grid-cols-3 outline">
+      <footer className=" grid grid-cols-3 outline p-1 rounded-bl rounded-br">
         <div className="flex flex-col space-y-4  border-r-2 border-black ">
-          <p>PAN: AKMPM6807F</p>
-          <p>GST NO: 27AKMPM6807F2ZW</p>
+          <p style={{ color: "#d11b0a", fontWeight: "bold" }}>
+            PAN: AKMPM6807F
+          </p>
+          <p style={{ color: "#d11b0a", fontWeight: "bold" }}>
+            GST NO: 27AKMPM6807F2ZW
+          </p>
           <p>GST Payable by : </p>
           {/* Radio Buttons */}
           <div className="space-x-4  ">
@@ -513,6 +483,10 @@ function BillBook({ id }) {
               type="radio"
               value="consignor"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              name="gst_payable_by"
+              onChange={(e) =>
+                handleMoreNestedChange("gst_payable_by", e.target.value, "")
+              }
             />
             <label
               for="link-radio-1"
@@ -526,7 +500,7 @@ function BillBook({ id }) {
               type="radio"
               value="consignee"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              name="consignee"
+              name="gst_payable_by"
               onChange={(e) =>
                 handleMoreNestedChange("gst_payable_by", e.target.value, "")
               }
@@ -538,13 +512,13 @@ function BillBook({ id }) {
               Consignee
             </label>
           </div>
-          <p className="text-[10px] font-bold ">
+          <p className="text-[13px] font-bold ">
             PLEASE PAY BY A/C PAYEE CHEQUE OR NEFT
           </p>
         </div>
 
-        <div className="flex flex-col justify-between items-center  border-r-2 border-black  ">
-          <p>AKASH ROAD CARRIERS</p>
+        <div className="flex flex-col justify-center items-center  border-r-2 border-black  ">
+          <p className="font-bold">AKASH ROAD CARRIERS</p>
           <p>Bank Name : IDBI Bank, Nigdi.</p>
           <p>Account No.: 087102000014243</p>
           <p>IFSE Code No.: IBKL0000087</p>
@@ -555,7 +529,10 @@ function BillBook({ id }) {
           <p className="">E.& O.E.</p>
         </div>
       </footer>
-      <button className="bg-blue-800 rounded px-3 text-white w-full m-3" onClick={() => handleSubmit_addBillCopy()}>
+      <button
+        className="bg-blue-800 rounded px-3 text-white w-full m-3"
+        onClick={() => handleSubmit_addBillCopy()}
+      >
         Submit
       </button>
     </div>

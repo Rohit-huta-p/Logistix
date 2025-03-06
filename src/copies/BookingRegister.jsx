@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstanceOf';
 
-const BookingRegister = ({ id, fetchCopyDetails, handleClose, setMessage }) => {
+const BookingRegister = ({ id, fetchCopyDetails, handleClose, setMessage, setShow }) => {
 
   // essentials 
   const [isLoading, setIsLoading] = useState(false)

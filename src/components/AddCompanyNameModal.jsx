@@ -3,21 +3,7 @@ import axiosInstance from "../axiosInstanceOf";
 
 const AddCompanyNameModal = ({show,handle}) => {
     const [company, setCompany] = useState(null);
-    // const handleAddCompany= async(company)=>{
-    //   if (company) {
-    //       try {
-    //         console.log(company);
-    //         const response = await axiosInstance.post("/api/addcompany", {
-    //           name: company,
-    //         });
-            
-            
-    //         // After successfully adding, fetch updated company list
-    //       } catch (error) {
-    //         console.error("Error adding company:", error);
-    //       }
-    //     }
-    // }
+
     
     const handleAddCompany = async () => {
         if (company.trim()) {

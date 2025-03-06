@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { IoArrowDownSharp } from "react-icons/io5";
 const Loader = ({isLoading, type, category, text}) => {
   console.log(isLoading);
   
@@ -21,6 +21,16 @@ const Loader = ({isLoading, type, category, text}) => {
     )} 
     </>
   )
+}
+
+
+export const DownloderAnimation = ({animation}) => {
+    return (
+      <div className=''>
+        <IoArrowDownSharp className={`${animation && 'animate-bounce'}`}/>
+        <div className='border border-black border-blue-500'></div>
+      </div>
+    )
 }
 
 export default Loader

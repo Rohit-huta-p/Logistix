@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import plus from "../assets/plus.jpg";
+
 
 import { Link, useNavigate } from "react-router-dom"; // For navigation
 import axiosInstance from "../axiosInstanceOf";
 import AddCompanyNameModal from "./AddCompanyNameModal";
 import Loader from "./Loader";
 
-const Card = () => {
+const Home = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
@@ -145,4 +145,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default Home;

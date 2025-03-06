@@ -3,29 +3,30 @@ import LrCopy from '../copies/lrcopy'
 import BillBook from '../copies/Billbook'
 import Letterpad from "../copies/Letterpad";
 import BookingRegister from "../copies/BookingRegister";
-const Modal = ({handle, copy, id, fetchCopyDetails, handleClose, setMessage}) => {
-
+const Modal = ({setShow, copy, companyId, fetchCopyDetails, handleClose, setMessage}) => {
+  console.log(companyId);
+  
     return (
      
         <div className="">
           {
             copy === 'lr' && (
-              <LrCopy id={id}/>
+              <LrCopy companyId={companyId} setShow={setShow} fetchCopyDetails={fetchCopyDetails}/>
             )
           }
           {
             copy === 'billcopy' && (
-              <BillBook id={id}/>
+              <BillBook id={companyId} setShow={setShow} fetchCopyDetails={fetchCopyDetails}/>
             )
           }
           {
             copy === 'letterPad' && (
-              <Letterpad id={id} fetchCopyDetails={fetchCopyDetails} handleClose={handleClose} setMessage={setMessage}/>
+              <Letterpad id={companyId} fetchCopyDetails={fetchCopyDetails} handleClose={handleClose} setMessage={setMessage} setShow={setShow} />
             )
           }
           {
             copy === 'bookingRegister' && (
-              <BookingRegister id={id} fetchCopyDetails={fetchCopyDetails} handleClose={handleClose} setMessage={setMessage}/>
+              <BookingRegister id={companyId} fetchCopyDetails={fetchCopyDetails} handleClose={handleClose} setMessage={setMessage} setShow={setShow}/>
             )
           }
         </div>

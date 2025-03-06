@@ -4,7 +4,7 @@ import LrTable from "../components/LrTable";
 import axiosInstance from "../axiosInstanceOf";
 import { useParams } from "react-router-dom";
 
-const LrCopy = ({id}) => {
+const LrCopy = ({companyId, setShow, fetchCopyDetails}) => {
   const isLrCopy = true;
   
   const [data, setData] = useState({
@@ -123,7 +123,7 @@ const LrCopy = ({id}) => {
   console.log(data);
 
 
-  const handleSubmit_addLr = async (companyId) => {
+  const handleSubmit_addLr = async () => {
     const amount_to_pay = data.delivery_details.amount_to_pay
     console.log(Number(amount_to_pay.freight));
     
@@ -132,14 +132,11 @@ const LrCopy = ({id}) => {
     
 
     try {
-      const response = await axiosInstance.post(`/api/lr/add/${id}`, data)
-
+      const response = await axiosInstance.post(`/api/lr/add/${companyId}`, data)
       console.log(response.data);
-
-       
-
-
-    console.log('Response:', response.data);
+      console.log('Response:', response.data);
+      setShow(false);
+      await fetchCopyDetails('lr');
     } catch (error) {
       console.log(error);
       

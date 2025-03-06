@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import axiosInstance from "../axiosInstanceOf";
 import Loader from "../components/Loader";
 
-const Letterpad = ({ id, fetchCopyDetails, handleClose, setMessage }) => {
+const Letterpad = ({ id, fetchCopyDetails, handleClose, setMessage, setShow }) => {
   const [letterPadData, setletterPadData] = useState({
     text: "",
   });
@@ -18,6 +18,7 @@ const Letterpad = ({ id, fetchCopyDetails, handleClose, setMessage }) => {
         letterPadData
       );
       console.log("Response:", response.data);
+      setShow(false)
       fetchCopyDetails('letterPad')
       setIsLoading(false)
       if(response.data.success) setMessage(response.data.message)
