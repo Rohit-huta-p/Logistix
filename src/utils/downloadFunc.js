@@ -3,7 +3,7 @@ import axiosInstance from "../axiosInstanceOf";
 export const handleDownload = async (lrid) => {
     try {
       const response = await axiosInstance.get(
-        `http://localhost:8000/api/lr/generatelr/${lrid}`,
+        `/lr/generatelr/${lrid}`,
         {
           responseType: "blob", // Receive binary data
         }
@@ -23,7 +23,7 @@ export const handleDownload = async (lrid) => {
 export const handleDownloadBillCopy = async (billId) => {
     try {
       const response = await axiosInstance.get(
-        `http://localhost:8000/api/billcopy/generatebillcopy/${billId}`,
+        `/billcopy/generatebillcopy/${billId}`,
         {
           responseType: "blob",
         }
@@ -43,7 +43,7 @@ export const handleDownloadBillCopy = async (billId) => {
 export const handleDownloadLetterPad = async (lpId, setIsLoading) => {
     try {
       const response = await axiosInstance.get(
-        `http://localhost:8000/api/letterpad/generateletterpad/${lpId}`,
+        `/letterpad/generateletterpad/${lpId}`,
         {
           responseType: "blob",
         }
@@ -64,7 +64,7 @@ export const handleDownloadBookingRegister = async (bookingRegisterId , setIsLoa
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(
-        `http://localhost:8000/api/bookingregister/generatepdf/${bookingRegisterId}`,
+        `/bookingregister/generatepdf/${bookingRegisterId}`,
         {
           responseType: "blob",
         }
