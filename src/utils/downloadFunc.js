@@ -5,7 +5,7 @@ export const handleDownload = async (lrid) => {
       const response = await axiosInstance.get(
         `/lr/generatelr/${lrid}`,
         {
-          responseType: "blob", // Receive binary data
+          responseType: "blob", 
         }
       );
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -22,6 +22,8 @@ export const handleDownload = async (lrid) => {
 
 export const handleDownloadBillCopy = async (billId) => {
     try {
+      console.log(billId);
+      
       const response = await axiosInstance.get(
         `/billcopy/generatebillcopy/${billId}`,
         {
